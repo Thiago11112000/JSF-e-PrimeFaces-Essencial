@@ -1,6 +1,5 @@
 package com.algaworks.erp.repository;
 import java.util.List;
-import java.util.Properties;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
