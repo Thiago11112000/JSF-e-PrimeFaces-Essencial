@@ -52,5 +52,3 @@ public class Empresas implements Serializable {
 		manager.remove(empresa);
 	}
 }
-	
-

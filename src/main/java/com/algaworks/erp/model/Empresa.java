@@ -86,11 +86,11 @@ public class Empresa implements Serializable {
 		this.cnpj = cnpj;
 	}
 
-	public Date getDatafundacao() {
+	public Date getDataFundacao() {
 		return datafundacao;
 	}
 
-	public void setDatafundacao(Date datafundacao) {
+	public void setDataFundacao(Date datafundacao) {
 		this.datafundacao = datafundacao;
 	}
 
