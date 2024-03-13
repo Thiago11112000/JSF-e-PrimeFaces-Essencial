@@ -8,30 +8,31 @@
 <title>Gestão Empresas</title>
 
 <h:outputStylesheet library="algaworks" name="estilo.css"/>
-</h:head>
-<h:body>
-<header> 
-<h:graphicImage library="algaworks" name="logo.png"/>
-</header>
+	</h:head>
+	<h:body>
+	<header> 
+	<h:graphicImage library="algaworks" name="logo.png"/>
+	</header>
+	
 
 <DIV id="conteudo">
-<h:form>
-   <h:panelGrid columns="2">
-   <h:outputLabel value="Razão Social:  " for="razaoSocial"/>
-   <h:inputText id = "razaoSocial"/>
+	<h:form>
+   		<h:panelGrid columns="2">
+   		<h:outputLabel value="Razão Social:  " for="razaoSocial"/>
+  		 <h:inputText id = "razaoSocial" value= "#{gestaoEmpresasBean.empresa.razaoSocial}"/>
    
-   <h:outputLabel value="Nome Fantasia:  " for="nomeFantasia"/>
-   <h:inputText id = "nomeFantasia"/>
+   		<h:outputLabel value="Nome Fantasia:  " for="nomeFantasia"/>
+   		<h:inputText id = "nomeFantasia" value = "#{gestaoEmpresasBean.empresa.nomeFantasia}"/>
    
-   <h:outputLabel value = "Tipo Empresa: " for= "tipo"/>
-   <h:selectOneMenu id="tipo">
+   		<h:outputLabel value = "Tipo Empresa: " for= "tipo"/>
+   		<h:selectOneMenu id="tipo" value  = "#{gestaoEmpresasBean.empresa.tipo}">
    
-   <f:selectItem itemLabel="Selecione..."/>
-    <f:selectItem itemLabel="MEI" itemValue="MEI"/>
-    <f:selectItem itemLabel="LTDA" itemValue="LTDA"/>  
-   </h:selectOneMenu>
+   		<f:selectItem itemLabel="Selecione..."/> 
+   		<f:selectItems value="#{gestaoEmpresasBean.tiposEmpresa}" var="tipoEmpresa"
+               itemLabel="#{tipoEmpresa.descricao}" itemValue="#{tipoEmpresa}"/>
+  		 </h:selectOneMenu>
    <h:outputLabel/>
-   <h:commandButton value="Salvar"/>
+   <h:commandButton value="Salvar" actionListener="#{gestaoEmpresasBean.salvar}"/>
    <h:dataTable value="#{[0 ,0 ,0 , 0]}">
      <h:column>
      <f:facet name="header">
