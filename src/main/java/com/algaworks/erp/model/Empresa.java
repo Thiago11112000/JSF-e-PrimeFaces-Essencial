@@ -47,17 +47,6 @@ public class Empresa implements Serializable {
 	public Long getId() {
 		return id;
 	}
-	@Column(precision = 10, scale = 2)
-	private BigDecimal faturamento;
-	
-	public BigDecimal getFaturamento() {
-        return faturamento;
-    }
-	
-	public void setFaturamento(BigDecimal faturamento) {
-        this.faturamento = faturamento;
-    }
-	
 	public void setId(Long id) {
 		this.id = id;
 	}
