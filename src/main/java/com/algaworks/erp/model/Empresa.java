@@ -41,12 +41,13 @@ public class Empresa implements Serializable {
    @NotNull
     @Column( nullable =  false, length = 18)
     private String cnpj;
-    
-    @NotNull
+   
+  
+   @NotNull
     @Past
     @Temporal(TemporalType.DATE)
     @Column(name = "data_fundacao")
-    private Date datafundacao;
+    private Date dataFundacao;
     
     
     @NotNull
@@ -90,11 +91,11 @@ public class Empresa implements Serializable {
 	}
 
 	public Date getDataFundacao() {
-		return datafundacao;
+		return dataFundacao;
 	}
 
 	public void setDataFundacao(Date datafundacao) {
-		this.datafundacao = datafundacao;
+		this.dataFundacao = datafundacao;
 	}
 
 	public RamoAtividade getRamoAtividade() {
