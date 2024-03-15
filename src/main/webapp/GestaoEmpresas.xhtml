@@ -15,16 +15,20 @@
 	<p:messages autoUpdate="true"/>
 	<p:toolbar>
 	<f:facet name="left">
-		<p:inputText placeholder="Digite aqui um termo para pesquisa ..."
+		<p:inputText id="termoPesquisa" placeholder="Digite aqui um termo para pesquisa ..."
 		size="30" value="#{gestaoEmpresasBean.termoPesquisa}"/>
 		
 		<p:commandButton value="Pesquisar"  icon=" fa fa-search" 
-		actionListener="#{gestaoEmpresasBean.pesquisar}" update="empresasDataTable"/>
+		actionListener="#{gestaoEmpresasBean.pesquisar}" update="empresasDataTable" 
+		process="@this termoPesquisa"/>
+		
 		<span class="ui-separator">  
 		<span class="ui-icon ui-icon-grip-dotted-vertical" />
 		</span>
 		<p:commandButton value = "Nova" icon="fa fa-plus"
-		onclick="PF('empresaDialogWidgetVar').show()"/>
+		actionListener="#{gestaoEmpresasBean.prepararNovaEmpresa}"
+		oncomplete="PF('empresaDialogWidgetVar').show()"
+		update="empresaDialog" process="@this"/>
 		<span class="ui-separator">  
 		<span class="ui-icon ui-icon-grip-dotted-vertical" />
 		</span>
@@ -62,18 +66,21 @@
 		 </p:column> 
 		 </p:dataTable>
 		 
-		 <p:dialog header="Nova Empresa" widgetVar="empresaDialogWidgetVar"
+		 <p:dialog id="empresaDialog" header="Nova Empresa" widgetVar="empresaDialogWidgetVar"
 		 modal="true" resizable="false">
-		 <h:panelGrid columns="2">
+		 <h:panelGrid id="empresaPanelGrid" columns="2"
+		 rendered="#{gestaoEmpresasBean.empresa ne null}">
 		 
 		  <p:outputLabel value="Razão Social:" for="razaoSocial"/>
-		  <p:inputText id= "razaoSocial" size="80" maxlength="120"/>
+		  <p:inputText id= "razaoSocial" size="80" maxlength="120"
+		  value="#{gestaoEmpresasBean.empresa.razaoSocial}"/>
 		  
-		  <p:outputLabel  value="Nome Fantasia:" for="nomeFantasia"/>
-		  <p:inputText id="nomeFantasia" size="80" maxlength="120"/>
+		  <p:outputLabel  value= "Nome Fantasia:" for="nomeFantasia"/>
+		  <p:inputText id="nomeFantasia" size="80" maxlength="120"
+		  value="#{gestaoEmpresasBean.empresa.nomeFantasia}"/>
 		  
 		    <p:outputLabel  value="Tipo Empresa:" for="tipo"/>
-             <p:selectOneMenu id= "tipo">
+             <p:selectOneMenu id= "tipo" value="#{gestaoEmpresasBean.empresa.tipo}">
               <f:selectItem itemLabel="Selecione..."/>
               <f:selectItems value="#{gestaoEmpresasBean.tiposEmpresa}"
                var="tipoEmpresa"  itemLabel="#{tipoEmpresa.descricao}"
@@ -81,19 +88,26 @@
                </p:selectOneMenu>
                
                <p:outputLabel value="CNPJ: " for = "cnpj" />
-               <p:inputMask  id = "cnpj" mask="99.999.999/9999-99" size="18"  maxlength="18"/>
+               <p:inputMask  id = "cnpj" mask="99.999.999/9999-99" size="18"  maxlength="18"
+               value="#{gestaoEmpresasBean.empresa.cnpj}"/>
                
                <p:outputLabel value= "Data Fundação" for ="dataFundacao"/>
-               <p:calendar  id= "dataFundacao" pattern="dd/MM/yyyy" size="30"/>
+               <p:calendar  id= "dataFundacao" pattern="dd/MM/yyyy" size="30"
+               value="#{gestaoEmpresasBean.empresa.dataFundacao}"/>
+               
                
                 <p:outputLabel value= "Ramo Atividade" for ="ramoAtividade"/>
-                <p:autoComplete id="ramoAtividade" size="80" completeMethod="#{gestaoEmpresasBean.completarRamoAtividade}"
+                <p:autoComplete id="ramoAtividade" size="80" 
+                value="#{gestaoEmpresasBean.empresa.ramoAtividade}"
+                completeMethod="#{gestaoEmpresasBean.completarRamoAtividade}"
                 converter="#{gestaoEmpresasBean.ramoAtividadesConverter}"
                 var="ramoAtividade"
                 itemLabel="#{ramoAtividade.descricao}" itemValue="#{ramoAtividade}"/>
                 
                 <h:outputLabel/>
-                <p:commandButton value="salvar"/>
+                <p:commandButton value="salvar" actionListener="#{gestaoEmpresasBean.salvar}"
+                update="empresasDataTable empresaPanelGrid"
+                oncomplete="PF('empresaDialogWidgetVar').hide()" process="empresaDialog"/>
              
 	     </h:panelGrid>   
 		 </p:dialog>

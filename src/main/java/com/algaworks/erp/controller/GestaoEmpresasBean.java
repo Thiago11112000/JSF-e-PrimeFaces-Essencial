@@ -14,6 +14,7 @@ import com.algaworks.erp.model.RamoAtividade;
 import com.algaworks.erp.model.TipoEmpresa;
 import com.algaworks.erp.repository.Empresas;
 import com.algaworks.erp.repository.RamoAtividades;
+import com.algaworks.erp.service.CadastroEmpresaService;
 import com.algaworks.erp.util.FacesMessages;
 
 @Named
@@ -30,11 +31,34 @@ public class GestaoEmpresasBean implements Serializable {
     
     @Inject
     private RamoAtividades ramoAtividades;
+    
+    @Inject
+    private CadastroEmpresaService cadastroEmpresaService;
     private List<Empresa> listaEmpresas;
+    
+    
+    private boolean  jaHouvePesquisa() {
+    	return termoPesquisa != null && !"".equals(termoPesquisa);
+    }
+    
     
     private String termoPesquisa;
     
     private Converter  ramoAtividadesConverter;
+    
+    
+    private Empresa empresa ; 
+    
+    public void prepararNovaEmpresa() {
+    	empresa = new Empresa();
+    }
+    public void salvar() {
+    	cadastroEmpresaService.salvar(empresa);
+    	if (jaHouvePesquisa()) {
+    		pesquisar();
+    	}
+    	messages.info("Empresa Cadastrada com sucesso!");
+    }
     	
     public void pesquisar() {
     	listaEmpresas = empresas.pesquisar(termoPesquisa);
@@ -49,6 +73,8 @@ public class GestaoEmpresasBean implements Serializable {
         listaEmpresas = empresas.todas();
     }
     
+    
+    
     public List<Empresa> getListaEmpresas() {
         return listaEmpresas;
     }
@@ -57,7 +83,7 @@ public class GestaoEmpresasBean implements Serializable {
     		return TipoEmpresa.values();
     	}
     	
-    public List<RamoAtividade>completarRamoAtividade(String  termo){
+     public List<RamoAtividade>completarRamoAtividade(String  termo){
       List<RamoAtividade> listaRamoAtividades = ramoAtividades.pesquisar(termo);
       ramoAtividadesConverter = new RamoAtividadeConverter(listaRamoAtividades);
       return listaRamoAtividades;
@@ -73,5 +99,8 @@ public class GestaoEmpresasBean implements Serializable {
     public Converter getRamoAtividadesConverter() {
 		return ramoAtividadesConverter;
 	} 
+    public Empresa getEmpresa() {
+		return empresa;
+	}
     
 }
