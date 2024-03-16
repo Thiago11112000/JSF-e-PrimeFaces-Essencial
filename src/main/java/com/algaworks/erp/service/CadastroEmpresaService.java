@@ -2,6 +2,7 @@ package com.algaworks.erp.service;
 
 import java.io.Serializable;
 
+
 import javax.inject.Inject;
 
 import com.algaworks.erp.model.Empresa;

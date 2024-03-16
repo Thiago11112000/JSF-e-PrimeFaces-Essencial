@@ -24,103 +24,113 @@ import com.algaworks.erp.util.FacesMessages;
 @ViewScoped
 public class GestaoEmpresasBean implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    
-    @Inject
-    private Empresas empresas;
-    
-    @Inject
-    private FacesMessages messages;
-    
-    @Inject
-    private RamoAtividades ramoAtividades;
-    
-    @Inject
-    private CadastroEmpresaService cadastroEmpresaService;
-    private List<Empresa> listaEmpresas;
-    
-    
-    private boolean  jaHouvePesquisa() {
-    	return termoPesquisa != null && !"".equals(termoPesquisa);
-    }
-    
-    
-    private String termoPesquisa;
-    
-    private Converter  ramoAtividadesConverter;
-    
-    
-    private Empresa empresa ; 
-    
-    public void prepararNovaEmpresa() {
-    	empresa = new Empresa();
-    }
-    
-    public void prepararEdicao() {
-    	ramoAtividadesConverter = new RamoAtividadeConverter(Arrays.asList(empresa.getRamoAtividade()));
-    	
-    }
-    public void salvar() {
-    	cadastroEmpresaService.salvar(empresa);
-    	if (jaHouvePesquisa()) {
-    		pesquisar();
-    	}else {
-    		todasEmpresas();
-    	}
-    	messages.info("Empresa Salva com sucesso!");
-    	RequestContext.getCurrentInstance().update(Arrays.asList
-    			("frm:empresasDataTable", "frm:messages"));
-    }
-    	
-    public void pesquisar() {
-    	listaEmpresas = empresas.pesquisar(termoPesquisa);
-    	
-    	if(listaEmpresas.isEmpty() ){
-    		messages.info("Sua consulta não retornou registros ");
-    	}
-    }
-    
-    @PostConstruct
-    public void todasEmpresas() {
-        listaEmpresas = empresas.todas();
-    }
-    
-    
-    
-    public List<Empresa> getListaEmpresas() {
-        return listaEmpresas;
-    }
-     
-    	public TipoEmpresa[] getTiposEmpresa(){
-    		return TipoEmpresa.values();
-    	}
-    	
-     public List<RamoAtividade>completarRamoAtividade(String  termo){
-      List<RamoAtividade> listaRamoAtividades = ramoAtividades.pesquisar(termo);
-      ramoAtividadesConverter = new RamoAtividadeConverter(listaRamoAtividades);
-      return listaRamoAtividades;
-    }
-    
-    
-    public String getTermoPesquisa() {
+	private static final long serialVersionUID = 1L;
+
+	@Inject
+	private Empresas empresas;
+
+	@Inject
+	private FacesMessages messages;
+
+	@Inject
+	private RamoAtividades ramoAtividades;
+
+	@Inject
+	private CadastroEmpresaService cadastroEmpresaService;
+	private List<Empresa> listaEmpresas;
+
+	private void atualizarRegistros() {
+		if (jaHouvePesquisa()) {
+			pesquisar();
+		} else {
+			todasEmpresas();
+		}
+	}
+
+	private boolean jaHouvePesquisa() {
+		return termoPesquisa != null && !"".equals(termoPesquisa);
+	}
+
+	private String termoPesquisa;
+
+	private Converter ramoAtividadesConverter;
+
+	private Empresa empresa;
+
+	public void prepararNovaEmpresa() {
+		empresa = new Empresa();
+	}
+
+	public void prepararEdicao() {
+		ramoAtividadesConverter = new RamoAtividadeConverter(Arrays.asList(empresa.getRamoAtividade()));
+
+	}
+
+	public void salvar() {
+		cadastroEmpresaService.salvar(empresa);
+
+		atualizarRegistros();
+		messages.info("Empresa Salva com sucesso!");
+		RequestContext.getCurrentInstance().update(Arrays.asList("frm:empresasDataTable", "frm:messages"));
+	}
+
+	public void excluir() {
+		cadastroEmpresaService.excluir(empresa);
+		empresa = null;
+		atualizarRegistros();
+		messages.info("Empresa excluída com sucesso!");
+
+	}
+
+	public void pesquisar() {
+		listaEmpresas = empresas.pesquisar(termoPesquisa);
+
+		if (listaEmpresas.isEmpty()) {
+			messages.info("Sua consulta não retornou registros ");
+		}
+	}
+
+	@PostConstruct
+	public void todasEmpresas() {
+		listaEmpresas = empresas.todas();
+	}
+
+	public List<Empresa> getListaEmpresas() {
+		return listaEmpresas;
+	}
+
+	public TipoEmpresa[] getTiposEmpresa() {
+		return TipoEmpresa.values();
+	}
+
+	public List<RamoAtividade> completarRamoAtividade(String termo) {
+		List<RamoAtividade> listaRamoAtividades = ramoAtividades.pesquisar(termo);
+		ramoAtividadesConverter = new RamoAtividadeConverter(listaRamoAtividades);
+		return listaRamoAtividades;
+	}
+
+	public String getTermoPesquisa() {
 		return termoPesquisa;
-	} 
-    public void setTermoPesquisa(String termoPesquisa) {
+	}
+
+	public void setTermoPesquisa(String termoPesquisa) {
 		this.termoPesquisa = termoPesquisa;
 	}
-    public Converter getRamoAtividadesConverter() {
+
+	public Converter getRamoAtividadesConverter() {
 		return ramoAtividadesConverter;
-	} 
-    public Empresa getEmpresa() {
+	}
+
+	public Empresa getEmpresa() {
 		return empresa;
 	}
-    
-    public void setEmpresa(Empresa empresa) {
+
+	public void setEmpresa(Empresa empresa) {
 		this.empresa = empresa;
 	}
-    
-    public boolean isEmpresaSelecionada() {
-    	return empresa!=null && empresa.getId() !=null;
-    }
-    
+
+	public boolean isEmpresaSelecionada() {
+		return empresa != null && empresa.getId() != null;
+	}
+
 }
