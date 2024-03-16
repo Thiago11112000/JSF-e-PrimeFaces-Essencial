@@ -51,8 +51,11 @@
 					disabled="#{not gestaoEmpresasBean.empresaSelecionada}"
 					actionListener="#{gestaoEmpresasBean.excluir}"
 					update="messages empresasDataTable toolbar"
-					process="@this"/>
-                
+					process="@this">	
+					<p:confirm icon="ui-icon-alert" header="Confirmação de Exclusão"
+					message="Posso excluir a empresa?"/>
+					</p:commandButton>
+                           
 					<span class="ui-separator"> <span
 						class="ui-icon ui-icon-grip-dotted-vertical" />
 					</span>
@@ -92,7 +95,7 @@
 				widgetVar="empresaDialogWidgetVar" modal="true" resizable="false"
 				closeOnEscape="true">
 				<p:messages id="empresaMessages" />
-
+                
                 <p:defaultCommand target="salvarCommandButton" scope="empresaDialog"/>
 				<h:panelGrid id="empresaPanelGrid" columns="2"
 					rendered="#{gestaoEmpresasBean.empresa ne null}">
