@@ -46,6 +46,12 @@ public class GestaoEmpresasBean implements Serializable {
 			todasEmpresas();
 		}
 	}
+	private boolean modoEdicao;
+
+	public boolean isModoEdicao() {
+	    return modoEdicao;
+	}
+
 
 	private boolean jaHouvePesquisa() {
 		return termoPesquisa != null && !"".equals(termoPesquisa);
@@ -59,11 +65,14 @@ public class GestaoEmpresasBean implements Serializable {
 
 	public void prepararNovaEmpresa() {
 		empresa = new Empresa();
+	    modoEdicao = false;
+
 	}
 
-	public void prepararEdicao() {
+	public void  prepararEdicao() {
 		ramoAtividadesConverter = new RamoAtividadeConverter(Arrays.asList(empresa.getRamoAtividade()));
-
+		 modoEdicao = true;
+     
 	}
 
 	public void salvar() {
@@ -131,6 +140,7 @@ public class GestaoEmpresasBean implements Serializable {
 
 	public boolean isEmpresaSelecionada() {
 		return empresa != null && empresa.getId() != null;
+		
+		}
 	}
 
-}

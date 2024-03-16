@@ -94,7 +94,7 @@
 				</p:column>
 			</p:dataTable>
 
-			<p:dialog id="empresaDialog" header="Nova empresa"
+			<p:dialog id="empresaDialog" header="#{gestaoEmpresasBean.modoEdicao ? 'Editar Empresa' : 'Nova Empresa'}"
 				widgetVar="empresaDialogWidgetVar" modal="true" resizable="false"
 				closeOnEscape="true">
 				<p:messages id="empresaMessages" />
