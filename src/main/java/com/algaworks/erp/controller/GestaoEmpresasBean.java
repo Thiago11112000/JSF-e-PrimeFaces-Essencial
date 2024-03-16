@@ -39,6 +39,7 @@ public class GestaoEmpresasBean implements Serializable {
 	private CadastroEmpresaService cadastroEmpresaService;
 	private List<Empresa> listaEmpresas;
 
+	
 	private void atualizarRegistros() {
 		if (jaHouvePesquisa()) {
 			pesquisar();
@@ -62,6 +63,9 @@ public class GestaoEmpresasBean implements Serializable {
 	private Converter ramoAtividadesConverter;
 
 	private Empresa empresa;
+	
+	
+	
 
 	public void prepararNovaEmpresa() {
 		empresa = new Empresa();
