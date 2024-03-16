@@ -62,7 +62,8 @@
 
 					<p:commandButton title="Exportar para o Excel"
 						icon="fa fa-file-excel-o" 
-						ajax="false">
+						ajax="false"
+						disabled="#{gestaoEmpresasBean.empresaSelecionada}">
 						<p:dataExporter type="xls" target="empresasDataTable" fileName="Empresas"/>
 						</p:commandButton>
 				</f:facet>
@@ -147,7 +148,6 @@
 	</ui:define>
 
 </ui:composition>
-
 
 
 
